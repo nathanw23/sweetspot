@@ -1,0 +1,127 @@
+# 🎯 sweetspot — Multi‑Objective Desirability Optimisation for Python
+
+**sweetspot** is a lightweight Python library for building and combining desirability functions — essential tools for multi‑objective optimisation in DOE, RSM, qPCR assay tuning, automated lab workflows, and machine learning.
+
+Desirability functions map responses to a 0–1 scale:
+- **0 → unacceptable**
+- **1 → ideal**
+
+This allows multiple competing objectives to be optimised simultaneously to find the global **sweet spot** in your experimental space.
+
+---
+
+## ✨ Features
+- Four canonical desirability functions:
+  - `LargerIsBetter`
+  - `SmallerIsBetter`
+  - `TargetIsBest`
+  - `RangeIsBest`
+- Multi‑objective aggregation:
+  - Geometric mean (default)
+  - Arithmetic mean
+  - Weighted geometric mean
+- Vectorised (NumPy)
+- Clean object‑oriented API
+- Plotting helpers (Matplotlib)
+- Parameter‑fitting helpers
+- Comes with tests and examples
+
+---
+
+## 📦 Installation
+Install in editable mode:
+```bash
+pip install -e .
+```
+Or build a wheel:
+```bash
+python -m build
+```
+
+---
+
+## 🚀 Quick Start
+```python
+import numpy as np
+from sweetspot import (
+    LargerIsBetter, TargetIsBest,
+    MultiObjectiveDesirability, plot_desirability
+)
+
+# 1) Define desirabilities
+wt  = LargerIsBetter(y_min=0,  y_max=12, s=1.0)
+mut = TargetIsBest(target=0.0, k=0.3)
+
+# 2) Combine for multi‑objective optimisation
+model = MultiObjectiveDesirability({"WT": wt, "Mut": mut})
+
+# 3) Evaluate
+WT_pred  = np.array([0, 6, 12])
+Mut_pred = np.array([0, 2, -2])
+
+D = model(WT=WT_pred, Mut=Mut_pred)
+print("Desirability:", D)
+```
+
+---
+
+## 📊 Visualising Desirability Curves
+```python
+import numpy as np
+from sweetspot import plot_desirability
+
+x = np.linspace(-5, 15, 200)
+plot_desirability([wt, mut], x, labels=["WT", "Mut"], title="Desirability Curves")
+```
+
+---
+
+## 🧩 Extending sweetspot
+```python
+from sweetspot import Desirability
+import numpy as np
+
+class SigmoidDesire(Desirability):
+    def __init__(self, center, k):
+        self.center = center
+        self.k = k
+
+    def __call__(self, x):
+        y = 1 / (1 + np.exp(-self.k * (np.asarray(x) - self.center)))
+        return self.clip(y)
+```
+
+---
+
+## 🧪 Tests
+```bash
+pytest -q
+```
+
+---
+
+## 📂 Project Structure
+```
+sweetspot/
+    src/sweetspot/
+        __init__.py
+        base.py
+        functions.py
+        compose.py
+        fit.py
+        plotting.py
+    tests/
+    examples/
+    pyproject.toml
+    README.md
+```
+
+---
+
+## 📜 License
+MIT
+
+---
+
+## 🤝 Contributing
+Pull requests and feature ideas are welcome — let's help everyone find their **sweet spot**! 🎯

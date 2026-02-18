@@ -1,0 +1,1 @@
+def fit_monotonic(y_bad,y_good,s=1): return y_bad,y_good,s
