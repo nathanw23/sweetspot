@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+src/sweetspot/__init__.py
+src/sweetspot/base.py
+src/sweetspot/compose.py
+src/sweetspot/fit.py
+src/sweetspot/functions.py
+src/sweetspot/plotting.py
+src/sweetspot.egg-info/PKG-INFO
+src/sweetspot.egg-info/SOURCES.txt
+src/sweetspot.egg-info/dependency_links.txt
+src/sweetspot.egg-info/requires.txt
+src/sweetspot.egg-info/top_level.txt
+tests/test_sweetspot.py
